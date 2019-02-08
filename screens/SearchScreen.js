@@ -66,7 +66,15 @@ export default class SearchScreen extends React.Component {
     alert('press '+key)
   };
 
+_doSearch = () => {
+    console.log('Search');
+    alert('Search')
+    //navigate();
+  };
+
+
   render() {
+     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
                 { this.state.loading && (
@@ -75,13 +83,16 @@ export default class SearchScreen extends React.Component {
                 { !this.state.data && (
                   <Text style={styles.txt}>Gimme some data===</Text>
                 )}
-                <Button title="Get Data"
+                <Button title="**Search**"
+                     onPress={() => navigate('List', {name: 'Jane'})}
+                    />
+                <Button title="**Get Data**"
                     onPress={this.getData} />
                 { this.state.error && (
                     <Text style={styles.err}>{this.state.error}</Text>
                 )}
+                
                 { !this.state.loading && this.state.data && this.state.data.albums && this.state.data.albums.length > 0 && (
-
                 <FlatList
                   data={this.state.data.albums}
                   renderItem={({item})=>(

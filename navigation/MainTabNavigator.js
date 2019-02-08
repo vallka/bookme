@@ -8,6 +8,7 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ListScreen from '../screens/ListScreen';
+import AlbumScreen from '../screens/AlbumScreen';
 
 
 const HomeStack = createStackNavigator({
@@ -26,6 +27,8 @@ HomeStack.navigationOptions = {
 
 const SearchStack = createStackNavigator({
   Search: SearchScreen,
+  List: ListScreen,
+  Album: AlbumScreen,
 });
 
 SearchStack.navigationOptions = {
@@ -38,6 +41,7 @@ SearchStack.navigationOptions = {
   ),
 };
 
+/*
 const ListStack = createStackNavigator({
   List: ListScreen,
 });
@@ -51,6 +55,7 @@ ListStack.navigationOptions = {
     />
   ),
 };
+*/
 
 const LinksStack = createStackNavigator({
   Links: LinksScreen,
@@ -83,7 +88,7 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   SearchStack,
-  ListStack,
+  //ListStack,
   LinksStack,
   SettingsStack,
 });

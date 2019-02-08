@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOp
 
 export default class ListScreen extends React.Component {
   static navigationOptions = {
-    title: 'Search',
+    title: 'List',
   };
   constructor(){
     super();
@@ -64,6 +64,7 @@ export default class ListScreen extends React.Component {
   _onPressItem = (key) => {
     console.log('Press'+key);
     alert('press '+key)
+    this.props.navigation.navigate('Album', {name: key})
   };
 
   render() {
@@ -73,20 +74,19 @@ export default class ListScreen extends React.Component {
                     <Text>LOADING</Text>
                 )}
                 { !this.state.data && (
-                  <Text style={styles.txt}>No data yet.......</Text>
+                  <Text style={styles.txt}>No data yet!</Text>
                 )}
                 { this.state.error && (
                     <Text style={styles.err}>{this.state.error}</Text>
                 )}
                 { !this.state.loading && this.state.data && this.state.data.albums && this.state.data.albums.length > 0 && (
-
                 <FlatList
                   data={this.state.data.albums}
                   renderItem={({item})=>(
                       <TouchableOpacity onPress={()=>this._onPressItem(item.key)}>
                         <View  >
                         <Text style={styles.txt}>
-                           { item.title }
+                           ={ item.title }=
                         </Text>
                         <Image
                          source={ {uri: item.cover_url} }
@@ -101,37 +101,6 @@ export default class ListScreen extends React.Component {
       </View>
   )
   }
-
-  render_1() {
-    return (
-      <ScrollView style={styles.container}>
-                { this.state.loading && (
-                    <Text>LOADING</Text>
-                )}
-                { !this.state.data && (
-                  <Text style={styles.txt}>Gimme some data!!!???</Text>
-                )}
-                <Button title="Get Data"
-                    onPress={this.getData} />
-                { this.state.error && (
-                    <Text style={styles.err}>{this.state.error}</Text>
-                )}
-                { !this.state.loading && this.state.data && this.state.data.albums && this.state.data.albums.length > 0 && (
-                    this.state.data.albums.map( album => (
-                        <View key={album.id} >
-                        <Text key={album.id} style={styles.txt}>
-                           { album.title }
-                        </Text>
-                        <Image
-                         source={ {uri: album.cover_url} }
-                         style={styles.welcomeImage}
-                        />
-                        </View>
-                    ))
-                )}      
-      </ScrollView>
-    );
-  }
 }
 
 const styles = StyleSheet.create({
@@ -142,7 +111,8 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 24,
-    color: '#333'
+    color: '#333',
+    backgroundColor: '#0f0',
   },
   err:{
       color: 'red',
