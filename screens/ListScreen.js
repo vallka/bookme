@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOp
 
 export default class ListScreen extends React.Component {
   static navigationOptions = {
-    title: 'List',
+    title: 'Models',
   };
   constructor(){
     super();
@@ -19,7 +19,7 @@ export default class ListScreen extends React.Component {
     console.log('getData');
     this.setState({loading:true, error: null});
     //let url = this.baseURL + '/photos?albumId=4';
-    let url = this.baseURL + '/albums/';
+    let url = this.baseURL + '/categories/2/albums/';
     let req = {
       method: 'GET',
       headers: {},
@@ -61,20 +61,43 @@ export default class ListScreen extends React.Component {
       //geolocation -> fetch
   }
 
-  _onPressItem = (key) => {
+  _onPressItem = (key,title) => {
     console.log('Press'+key);
-    alert('press '+key)
-    this.props.navigation.navigate('Album', {name: key})
+    //alert('press '+key)
+    this.props.navigation.navigate('Album', {name: key,title: title})
   };
 
   render() {
     return (
       <View style={styles.container}>
+      <View
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Image
+          style={{
+            flex: 1,
+            resizeMode: 'cover',
+            width: null,
+            height: null,
+            }}
+          source={require ("../assets/images/bg.png")}
+          />
+      </View>
+      <View  style={{
+            flex: 1,
+            backgroundColor: 'transparent',
+            justifyContent: 'center',
+          }}>
                 { this.state.loading && (
-                    <Text>LOADING</Text>
-                )}
-                { !this.state.data && (
-                  <Text style={styles.txt}>No data yet!</Text>
+                  <View style={{margin:70}}>
+                    <Text style={styles.txt}>LOADING...</Text>
+                  </View>
                 )}
                 { this.state.error && (
                     <Text style={styles.err}>{this.state.error}</Text>
@@ -83,36 +106,72 @@ export default class ListScreen extends React.Component {
                 <FlatList
                   data={this.state.data.albums}
                   renderItem={({item})=>(
-                      <TouchableOpacity onPress={()=>this._onPressItem(item.key)}>
-                        <View  >
+                      <TouchableOpacity onPress={()=>this._onPressItem(item.key,item.title)} style={styles.item}>
                         <Text style={styles.txt}>
-                           ={ item.title }=
+                           { item.title }
                         </Text>
+                        <View style={{flex: 1, flexDirection: 'row'}}>
                         <Image
                          source={ {uri: item.cover_url} }
                          style={styles.welcomeImage}
                         />
-                        </View>
+                        <Text  style={styles.txtSmall}>
+                           { item.summary }
+                        </Text>
+                        </View>                      
                       </TouchableOpacity>
                   )}
                 />    
                 )}
 
       </View>
+      </View>
   )
   }
 }
 
 const styles = StyleSheet.create({
+  button: {
+    backgroundColor: '#C108C7',
+    marginLeft: 40,
+    marginRight: 40,
+    marginTop: 20,
+    marginBottom: 20,
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 24,
+    textTransform: 'uppercase'
+  },
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
+  },
+  item: {
+    backgroundColor: '#222',
+    marginBottom: 10,
+    justifyContent: 'center',
+  },
+  txtView: {
+    margin: 0,
+    width: '100%',
+    alignItems: 'center',
+
   },
   txt: {
     fontSize: 24,
-    color: '#333',
-    backgroundColor: '#0f0',
+    color: '#eee',
+    backgroundColor: '#C108C7',
+    padding: 8,
+  },
+  txtSmall: {
+    fontSize: 14,
+    color: '#eee',
+    backgroundColor: '#222',
+    padding: 8,
   },
   err:{
       color: 'red',
@@ -120,10 +179,8 @@ const styles = StyleSheet.create({
       fontWeight: 'bold'
   },
   welcomeImage: {
-    width: 150,
-    height: 150,
+    width: 180,
+    height: 180,
     resizeMode: 'contain',
-    marginTop: 10,
-    marginLeft: 10,
   },
 });
