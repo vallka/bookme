@@ -5,6 +5,10 @@ import { MyButton, MyBackground } from '../components/MyCompo';
 export default class ListScreen extends React.Component {
   static navigationOptions = {
     title: 'Models',
+    headerStyle: { backgroundColor: 'black' },
+    headerTitleStyle: { color: 'white' },
+    headerBackTitleStyle: { color: '#C108C7' },
+    headerTintColor: '#C108C7',
   };
   constructor(){
     super();
@@ -17,10 +21,16 @@ export default class ListScreen extends React.Component {
   baseURL = 'http://gallery.vallka.com/api.php';
 
   getData = (ev)=>{
+    const sex = this.props.navigation.getParam('sex', 'Boys and Girls');
+
+    var albumId = 2;  
+    if (sex == 'Girls') albumId = 3;
+    if (sex == 'Boys') albumId = 4;
+
     console.log('getData');
     this.setState({loading:true, error: null});
     //let url = this.baseURL + '/photos?albumId=4';
-    let url = this.baseURL + '/categories/2/albums/';
+    let url = this.baseURL + '/categories/'+albumId+'/albums/';
     let req = {
       method: 'GET',
       headers: {},

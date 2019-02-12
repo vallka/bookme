@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOpacity,Picker } from 'react-native';
 import { MyButton, MyBackground } from '../components/MyCompo';
+import { UniPicker } from '../components/UniPicker';
 
 export default class ListScreen extends React.Component {
   static navigationOptions = {
@@ -10,11 +11,23 @@ export default class ListScreen extends React.Component {
   constructor(){
     super();
     this.state = {
-        sex: 'All',
+        sex: null,
+        hairColor: null,
+        eyeColor: null,
+        height: null,
     }
   }
 
+  search = ()=>{
+    this.props.navigation.navigate('List',{sex: this.state.sex});
+  }
+
   render() {
+    const sex = ['Boys and Girls','Girls','Boys'];
+    const hairColor = ['Hair: Any','Blonde','Brunette'];
+    const eyeColor = ['Eyes: Any','Blue','Gray','Green'];
+    const height = ['Height: Any','160cm','170cm','180cm','190cm','200cm'];
+
     return (
       <View style={styles.container}>
         <MyBackground />
@@ -26,19 +39,12 @@ export default class ListScreen extends React.Component {
           }}
         >
 
-<Picker
-    selectedValue={this.state.sex}
-  style={styles.picker}
-  onValueChange={(itemValue, itemIndex) =>
-    this.setState({sex: itemValue})
-  }>
-  <Picker.Item label="Gender - All" value="All"/>
-  <Picker.Item label="Girls" value="Girls" />
-  <Picker.Item label="Boys" value="Boys" />
-</Picker>
-       
+        <UniPicker options={sex} onValueChange={(value)=>this.setState({sex: value})} />
+        <UniPicker options={hairColor} onValueChange={(value)=>this.setState({hairColor: value})} />
+        <UniPicker options={eyeColor} onValueChange={(value)=>this.setState({eyeColor: value})} />
+        <UniPicker options={height} onValueChange={(value)=>this.setState({height: value})} />
 
-        <MyButton text='View Models' onPress={()=>this.props.navigation.navigate('List')}/>
+        <MyButton text='View Models' onPress={()=>this.search()}/>
 
         </View>
       </View>

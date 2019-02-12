@@ -91,4 +91,16 @@ export default createBottomTabNavigator({
   //ListStack,
   LinksStack,
   SettingsStack,
-});
+},
+{
+  tabBarOptions: {
+      showLabel: false, // hide labels
+      style: {
+        color: '#0f0',
+          backgroundColor: '#000' // TabBar background
+      },
+      activeTintColor: '#C108C7', // active icon color
+      inactiveTintColor: '#fff',  // inactive icon color
+  }
+}
+);

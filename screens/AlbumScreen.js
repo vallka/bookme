@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOpacity,ActivityIndicator, Dimensions 
+  StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOpacity,ActivityIndicator, Dimensions, Modal 
   } from 'react-native';
 import { MyButton, MyBackground } from '../components/MyCompo';
 
@@ -8,7 +8,11 @@ export default class AlbumScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('title', 'Model Details'),
-    };
+      headerStyle: { backgroundColor: 'black' },
+      headerTitleStyle: { color: 'white' },
+      headerBackTitleStyle: { color: '#C108C7' },
+      headerTintColor: '#C108C7',
+      };
   };
   
   constructor(){
@@ -18,12 +22,14 @@ export default class AlbumScreen extends React.Component {
         loading: false,
         error: null,
         albumId: 666,
+        modalVisible: false,
     }
   }
   baseURL = 'http://gallery.vallka.com/api.php';
 
   getData = (ev)=>{
     const itemId = this.props.navigation.getParam('name', 'NO-ID');
+
     this.setState({loading:true, error: null, albumId: itemId});
     let url = this.baseURL + '/albums/' + itemId + '/content/';
     console.log('getData:'+url);
@@ -61,6 +67,8 @@ export default class AlbumScreen extends React.Component {
 
   _onPressItem = (key) => {
     console.log('Press'+key);
+    alert(this.props.navigation.getParam('title', 'Model Details') + ' Height..., Weight.., Hair Color..., Eye Color... Do you want to book this model?')
+    //this.setState({modalVisible: true});
   };
 
   render() {
@@ -87,7 +95,7 @@ export default class AlbumScreen extends React.Component {
                 <FlatList
                   data={this.state.data.content}
                   renderItem={({item})=>(
-                      <View style={styles.item}>
+                      <TouchableOpacity onPress={()=>this._onPressItem(item.key,item.title)} style={styles.item}>
                       <View 
                >
                         <Image
@@ -95,11 +103,33 @@ export default class AlbumScreen extends React.Component {
                style={{ height: imageHeight, width: imageWidth, resizeMode: 'contain'}}
                         />
                         </View>
-                      </View>
+                      </TouchableOpacity>
                   )}
                 />    
                 )}
 
+
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style={{marginTop: 22}}>
+            <View>
+              <Text>Hello World!</Text>
+
+              <TouchableOpacity
+                onPress={() => {
+                  this.setState({modalVisible: false});
+
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
         </View>
       </View>
 );
