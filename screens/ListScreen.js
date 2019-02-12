@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOpacity,ActivityIndicator,Dimensions } from 'react-native';
+import { MyButton, MyBackground } from '../components/MyCompo';
 
 export default class ListScreen extends React.Component {
   static navigationOptions = {
@@ -68,36 +69,20 @@ export default class ListScreen extends React.Component {
   };
 
   render() {
+    const itemId = this.props.navigation.getParam('name', 'NO-ID');
+    const dimensions = Dimensions.get('window');
+    const imageWidth = Math.round(dimensions.width / 2);
+    const imageHeight = imageWidth;
     return (
       <View style={styles.container}>
-      <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        <Image
-          style={{
-            flex: 1,
-            resizeMode: 'cover',
-            width: null,
-            height: null,
-            }}
-          source={require ("../assets/images/bg.png")}
-          />
-      </View>
-      <View  style={{
+        <MyBackground />
+        <View  style={{
             flex: 1,
             backgroundColor: 'transparent',
             justifyContent: 'center',
           }}>
                 { this.state.loading && (
-                  <View style={{margin:70}}>
-                    <Text style={styles.txt}>LOADING...</Text>
-                  </View>
+                  <ActivityIndicator size="large" color="#C108C7" />
                 )}
                 { this.state.error && (
                     <Text style={styles.err}>{this.state.error}</Text>
@@ -113,8 +98,8 @@ export default class ListScreen extends React.Component {
                         <View style={{flex: 1, flexDirection: 'row'}}>
                         <Image
                          source={ {uri: item.cover_url} }
-                         style={styles.welcomeImage}
-                        />
+                         style={{ height: imageHeight, width: imageWidth, resizeMode: 'contain'}}
+                         />
                         <Text  style={styles.txtSmall}>
                            { item.summary }
                         </Text>
@@ -124,35 +109,19 @@ export default class ListScreen extends React.Component {
                 />    
                 )}
 
-      </View>
+        </View>
       </View>
   )
   }
 }
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#C108C7',
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 20,
-    marginBottom: 20,
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 24,
-    textTransform: 'uppercase'
-  },
   container: {
     flex: 1,
   },
   item: {
-    backgroundColor: '#222',
-    marginBottom: 10,
+    backgroundColor: '#00000070',
+    marginBottom: 0,
     justifyContent: 'center',
   },
   txtView: {
@@ -163,14 +132,13 @@ const styles = StyleSheet.create({
   },
   txt: {
     fontSize: 24,
-    color: '#eee',
-    backgroundColor: '#C108C7',
+    color: '#fff',
+    backgroundColor: '#C108C780',
     padding: 8,
   },
   txtSmall: {
     fontSize: 14,
-    color: '#eee',
-    backgroundColor: '#222',
+    color: '#fff',
     padding: 8,
   },
   err:{
@@ -178,7 +146,7 @@ const styles = StyleSheet.create({
       fontSize: 30,
       fontWeight: 'bold'
   },
-  welcomeImage: {
+  itemImage: {
     width: 180,
     height: 180,
     resizeMode: 'contain',

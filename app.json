@@ -2,7 +2,7 @@
   "expo": {
     "name": "Book Me",
     "slug": "bookme",
-    "privacy": "public",
+    "privacy": "unlisted",
     "sdkVersion": "32.0.0",
     "platforms": [
       "ios",

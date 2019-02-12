@@ -1,5 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOpacity } from 'react-native';
+import { 
+  StyleSheet, Text, View, Button, ScrollView, Image, FlatList,TouchableOpacity,ActivityIndicator, Dimensions 
+  } from 'react-native';
+import { MyButton, MyBackground } from '../components/MyCompo';
 
 export default class AlbumScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -62,37 +65,21 @@ export default class AlbumScreen extends React.Component {
 
   render() {
     const itemId = this.props.navigation.getParam('name', 'NO-ID');
+    const dimensions = Dimensions.get('window');
+    const imageHeight = Math.round(dimensions.height * 0.8);
+    const imageWidth = dimensions.width;
+    
     return (
       <View style={styles.container}>
-      <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        <Image
-          style={{
-            flex: 1,
-            resizeMode: 'cover',
-            width: null,
-            height: null,
-            }}
-          source={require ("../assets/images/bg.png")}
-          />
-      </View>
-      <View  style={{
+        <MyBackground />
+        <View  style={{
             flex: 1,
             backgroundColor: 'transparent',
             justifyContent: 'center',
           }}>
                 { this.state.loading && (
-                  <View style={{margin:70}}>
-                    <Text style={styles.txt}>LOADING...</Text>
-                  </View>
-                )}
+                  <ActivityIndicator size="large" color="#C108C7" />
+                  )}
                 { this.state.error && (
                     <Text style={styles.err}>{this.state.error}</Text>
                 )}
@@ -101,47 +88,31 @@ export default class AlbumScreen extends React.Component {
                   data={this.state.data.content}
                   renderItem={({item})=>(
                       <View style={styles.item}>
+                      <View 
+               >
                         <Image
                source={ {uri: item.presets.medium.url} }
-               style={styles.welcomeImage}
+               style={{ height: imageHeight, width: imageWidth, resizeMode: 'contain'}}
                         />
+                        </View>
                       </View>
                   )}
                 />    
                 )}
 
+        </View>
       </View>
-      </View>
-
-
-
 );
   }
 }
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#C108C7',
-    marginLeft: 40,
-    marginRight: 40,
-    marginTop: 20,
-    marginBottom: 20,
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 24,
-    textTransform: 'uppercase'
-  },
   container: {
     flex: 1,
   },
   item: {
-    backgroundColor: '#222',
-    marginBottom: 10,
+    backgroundColor: '#00000070',
+    paddingBottom: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -151,25 +122,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
-  txt: {
-    fontSize: 24,
-    color: '#eee',
-    backgroundColor: '#C108C7',
-    padding: 8,
-  },
-  txtSmall: {
-    fontSize: 14,
-    color: '#eee',
-    backgroundColor: '#222',
-    padding: 8,
-  },
   err:{
       color: 'red',
       fontSize: 30,
       fontWeight: 'bold'
   },
-  welcomeImage: {
-    width: 400,
+  albumImage: {
+    width: 500,
     height: 500,
     resizeMode: 'contain',
   },
