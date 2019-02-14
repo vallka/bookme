@@ -31,7 +31,7 @@ export default class HomeScreen extends React.Component {
         >
         <MyButton text='MODEL SIGN UP' onPress={()=>alert('Sigh up as a Model')}/>
         <MyButton text='AGENCY SIGN UP' onPress={()=>alert('Sigh up as an Agency')}/>
-        <MyButton text='View Models' onPress={()=>this.props.navigation.navigate('Search')}/>
+        <MyButton text='View Models!' onPress={()=>this.props.navigation.navigate('Search')}/>
 
         </View>
       </View>

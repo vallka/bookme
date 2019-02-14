@@ -5,7 +5,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll",
+    "start-web": "react-scripts start",
+    "build-web": "react-scripts build"
   },
   "jest": {
     "preset": "jest-expo"
@@ -14,6 +16,7 @@
     "@expo/samples": "2.1.1",
     "expo": "^32.0.0",
     "react": "16.5.0",
+    "react-dom": "^16.8.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-navigation": "^3.0.9"
   },
@@ -21,5 +24,11 @@
     "babel-preset-expo": "^5.0.0",
     "jest-expo": "^32.0.0"
   },
-  "private": true
+  "private": true,
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
